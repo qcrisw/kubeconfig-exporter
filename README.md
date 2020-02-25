@@ -8,13 +8,13 @@ It is safe to invoke it on any YAML file as it does not do the replacement
 unless it finds the expected paths in the input. It also does not do in-place
 replacement, and the caller should redirect the output to a file.
 
-## Build:
+## Build
 
 ```bash
 docker build . -t kubeconfig-exporter:latest
 ```
 
-## Run:
+## Run
 
 ```bash
 cat /root/.kube/config | \
@@ -28,3 +28,16 @@ Note that in the above example, the input file is located at `/root/.kube/config
 and this file is referencing paths in `/root/.minikube`. This is why it has to
 be mounted inside the container. Also, in this example the output is saved
 in `new.kubeconfig` on the host machine.
+
+## No-build run
+
+Run directly from Docker Hub by referencing `qcrisw/kubeconfig-exporter:latest`
+as the docker image repository:
+
+```bash
+cat /root/.kube/config | \
+  docker run -i --rm \
+  -v /root/.minikube:/root/.minikube \
+  qcrisw/kubeconfig-exporter:latest > \
+    new.kubeconfig
+```
